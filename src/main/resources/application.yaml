@@ -1,0 +1,66 @@
+# web server
+server:
+  port: 8081
+
+spring:
+  #mongo
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: seckill
+  #redis集群配置
+  redis:
+    # Redis服务器连接密码（默认为空）
+    # password: *****
+#    jedis:
+#      pool:
+#       # 连接池最大连接数（使用负值表示没有限制）
+#        max-active: 5000
+#       # 连接池最大阻塞等待时间（使用负值表示没有限制）
+#        max-wait: -1
+#       # 连接池中的最大空闲连接
+#        max-idle: 100
+#       # 连接池中的最小空闲连接
+#        min-idle: 10
+    # 连接超时时间（毫秒）
+    timeout: 5000
+    commandTimeout: 5000
+    #集群
+    cluster:
+      maxRedirects: 3
+      nodes:
+       - 127.0.0.1:7001
+       - 127.0.0.1:7002
+       - 127.0.0.1:7003
+       - 127.0.0.1:7004
+       - 127.0.0.1:7005
+       - 127.0.0.1:7006
+  #kafka
+  kafka:
+    # 指定kafka 代理地址，可以多个
+    bootstrap-servers: localhost:9092
+    # template
+    template:
+      default-topic: test
+    # listener
+    listener:
+      # #指定listener 容器中的线程数，用于提高并发量
+      concurrency: 3
+    # provider
+    provider:
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+      # 指定消息key和消息体的编解码方式
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    # consumer
+    consumer:
+      # 指定默认消费者group id
+      group-id: test-consumer-group
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
